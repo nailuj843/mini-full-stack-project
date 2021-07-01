@@ -17,6 +17,7 @@ app.get('/todo', function(req, res) {
   knex
     .select('*')
     .from('todolist')
+    .orderBy('id')
     .then(data => res.status(200).json(data))
     .catch(err =>
       res.status(404).json({
@@ -26,13 +27,13 @@ app.get('/todo', function(req, res) {
     );
 });
 
-app.post('/updateList', (req, res) => {
+app.post('/updateList', async (req, res) => {
 
     // {"todoitem" : "fefe"}
 
-    console.log(req.body)
+    console.log("user tried to add ",  req.body)
 
-    knex.insert(req.body).into('todolist').then(result => console.log(result))
+    await knex.insert(req.body).into('todolist')
 
     res.send('you tried to make a post')
 })
